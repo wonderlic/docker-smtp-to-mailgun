@@ -12,6 +12,6 @@ WORKDIR /app
 COPY --from=build /build/node_modules ./node_modules
 COPY config.js mailer.js server.js package.json ./
 
-RUN ln -s /usr/bin/node /app/smtp-to-mailgun
+RUN ln -s /usr/local/bin/node /app/smtp-to-mailgun
 
 CMD ["/app/smtp-to-mailgun", "/app/server.js"]

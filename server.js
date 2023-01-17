@@ -16,6 +16,7 @@ async function onData(stream, session, callback) {
       subject: _.get(parsed, 'subject'),
       text: _.get(parsed, 'text'),
       html: _.get(parsed, 'html'),
+      attachments: _.get(parsed, 'attachments'),
     }
     //console.log('Message Received:', mail, session);
     mailer.sendMail(mail);

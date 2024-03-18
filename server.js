@@ -9,10 +9,11 @@ async function onData(stream, session, callback) {
   try {
     const parsed = await simpleParser(stream);
     const headers = _.get(parsed, 'headers');
-    console.log(JSON.stringify(headers));
-    // headers.forEach((header) => {
-    //   console.log(`${header.key}: ${header.value}`);
-    // });
+    console.log(JSON.stringify(headers, null, ' '));
+    console.log('###### foreach Header ######');
+    headers.forEach((header) => {
+      console.log(JSON.stringify(header, null, ' '));
+    });
 
     const mail = {
       from: _.get(parsed, 'from.text'),

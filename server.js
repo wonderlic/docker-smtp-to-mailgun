@@ -1,13 +1,18 @@
 const _ = require('lodash');
-const SMTPServer = require("smtp-server").SMTPServer;
+const SMTPServer = require('smtp-server').SMTPServer;
 const simpleParser = require('mailparser').simpleParser;
-const mailer = require ('./mailer');
+const mailer = require('./mailer');
 
 const config = require('./config');
 
 async function onData(stream, session, callback) {
   try {
     const parsed = await simpleParser(stream);
+    const headers = _.get(parsed, 'headers');
+    headers.forEach((header) => {
+      console.log(`${header.key}: ${header.value}`);
+    });
+
     const mail = {
       from: _.get(parsed, 'from.text'),
       to: _.get(parsed, 'to.text'),
@@ -17,7 +22,7 @@ async function onData(stream, session, callback) {
       text: _.get(parsed, 'text'),
       html: _.get(parsed, 'html'),
       attachments: _.get(parsed, 'attachments'),
-    }
+    };
     //console.log('Message Received:', mail, session);
     mailer.sendMail(mail);
 
@@ -27,12 +32,12 @@ async function onData(stream, session, callback) {
   }
 }
 
-const _server = new SMTPServer({authOptional: true, onData});
+const _server = new SMTPServer({ authOptional: true, onData });
 
 _server.listen(config.port, null, () => {
   console.log(`Listening for SMTP messages on port ${config.port}`);
 });
 
-_server.on("error", err => {
+_server.on('error', (err) => {
   console.log(`Error: ${err.message}`);
 });

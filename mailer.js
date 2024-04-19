@@ -52,13 +52,13 @@ function findDomain(parsed) {
   for (const mailgunDomain of config.mailgunDomains) {
     if (mailgunDomain.fieldMatch) {
       const matchField = _.get(parsed, mailgunDomain.fieldMatch);
-      if (mailgunDomain.regex.test(matchField)) {
+      if (matchField.match(mailgunDomain.regex)) {
         return mailgunDomain.name;
       }
     } else if (mailgunDomain.headerMatch) {
       const headers = _.get(parsed, 'headerLines');
       for (const header of headers) {
-        if (mailgunDomain.regex.test(header.line)) {
+        if (header.line.match(mailgunDomain.regex)) {
           return mailgunDomain.name;
         }
       }

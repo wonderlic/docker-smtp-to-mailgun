@@ -3,3 +3,4 @@ node_modules/*
 .gitrev
 .npmrc
 *.log
+.env

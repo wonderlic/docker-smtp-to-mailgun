@@ -8,16 +8,7 @@ const config = require('./config');
 async function onData(stream, session, callback) {
   try {
     const parsed = await simpleParser(stream);
-    const headers = _.get(parsed, 'headers');
-    // console.log(JSON.stringify(headers, null, ' '));
-    // console.log('###### foreach Header ######');
-    Object.keys(headers).forEach((key) => {
-      console.log(`${key} : ${JSON.stringify(header[key], null, ' ')}`);
-    });
-
-    // headers.forEach((header) => {
-    //   console.log(JSON.stringify(header, null, ' '));
-    // });
+    const domain = mailer.findDomain(parsed);
 
     const mail = {
       from: _.get(parsed, 'from.text'),
@@ -29,8 +20,7 @@ async function onData(stream, session, callback) {
       html: _.get(parsed, 'html'),
       attachments: _.get(parsed, 'attachments'),
     };
-    //console.log('Message Received:', mail, session);
-    mailer.sendMail(mail);
+    mailer.sendMail(mail, domain);
 
     callback();
   } catch (ex) {

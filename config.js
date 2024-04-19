@@ -11,12 +11,15 @@ function getIntEnvVar(key) {
 function getBoolEnvVar(key) {
   return getEnvVar(key) === 'true';
 }
+function getJSONEnvVar(key) {
+  return JSON.parse(getEnvVar(key));
+}
 
 const config = {
   port: getIntEnvVar('PORT'),
   mailgunAPIKey: getEnvVar('MAILGUN_API_KEY'),
   mailgunDomain: getEnvVar('MAILGUN_DOMAIN'),
-  mailgunDomains: getEnvVar('MAILGUN_DOMAINS'),
+  mailgunDomains: getJSONEnvVar('MAILGUN_DOMAINS'),
 };
 
 module.exports = config;

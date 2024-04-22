@@ -27,8 +27,8 @@ You can set the environment variable MAILGUN_DOMAIN_OVERRIDES to an array of dif
 Example:
 ```
 [
-  {"match": {"field": "from", "regex": ".*-Beta@.*"},"domain":"beta-mg.yourdomain.com"},
-  {"match": {"header": "received", "regex": "^SANDBOX-.*"},"domain":"sandbox-mg.yourdomain.com"},
+  {"match": {"field": "from.text", "regex": ".*-Beta@.*"}, "domain":"beta-mg.yourdomain.com"},
+  {"match": {"header": "received", "regex": "^SANDBOX-.*"}, "domain":"sandbox-mg.yourdomain.com"},
 ]
 ```
 

@@ -10,8 +10,8 @@ LABEL maintainer="Wonderlic DevOps <DevOps@wonderlic.com>"
 
 WORKDIR /app
 COPY --from=build /build/node_modules ./node_modules
-COPY config.js server.js package.json ./
 COPY lib ./lib
+COPY config.js server.js package.json ./
 
 RUN ln -s /usr/local/bin/node /app/smtp-to-mailgun
 

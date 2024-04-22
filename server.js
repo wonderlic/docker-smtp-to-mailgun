@@ -11,7 +11,7 @@ async function onData(stream, session, callback) {
     const parsed = await simpleParser(stream);
     const domainOverride = overrides.getDomainOverride(parsed);
     const mail = mailer.buildMail(parsed);
-    mailer.sendMail(mail, domainOverride);
+    await mailer.sendMail(mail, domainOverride);
 
     callback();
   } catch (ex) {

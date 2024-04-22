@@ -23,12 +23,14 @@ If not set:
 
 - PORT defaults to 25
 
-You can set the environment variable MAILGUN_DOMAINS to an array of different mailgun domains, you can choose either fields on the email with setting fieldMatch to the field you want to run a regex against or you can run a regex against a specific header by setting the field headerMatch
+You can set the environment variable MAILGUN_DOMAIN_OVERRIDES to an array of different mailgun domains, you can choose either fields on the email with setting fieldMatch to the field you want to run a regex against or you can run a regex against a specific header by setting the field headerMatch
 Example:
+```
 [
-{"name":"beta","domain":"beta-mg.yourdomain.com","regex":"Hello","fieldMatch":"subject",default:true},
-{"name":"sandbox","domain":"sandbox-mg.yourdomain.com","regex":"Sandbox-Server","headerMatch":"recieved"}
+  {"match": {"field": "from", "regex": ".*-Beta@.*"},"domain":"beta-mg.yourdomain.com"},
+  {"match": {"header": "received", "regex": "^SANDBOX-.*"},"domain":"sandbox-mg.yourdomain.com"},
 ]
+```
 
 This will provide 2 routes to check. The first one will look at the subject of the email, and if it contains "Hello", it will route it through beta-mg.yourdomain.com on mailgun. The second will look at the header called "recieved" and see if it contains Sandbox-Server, if it does it will route through sandbox-mg.yourdomain.com. If both of these tests fail it will use whatever is configured with default:true.
 

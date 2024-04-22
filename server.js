@@ -1,26 +1,17 @@
 const _ = require('lodash');
 const SMTPServer = require('smtp-server').SMTPServer;
 const simpleParser = require('mailparser').simpleParser;
-const mailer = require('./mailer');
 
 const config = require('./config');
+const overrides = require('./lib/overrides');
+const mailer = require('./lib/mailer');
 
 async function onData(stream, session, callback) {
   try {
     const parsed = await simpleParser(stream);
-    const domain = mailer.findDomain(parsed);
-
-    const mail = {
-      from: _.get(parsed, 'from.text'),
-      to: _.get(parsed, 'to.text'),
-      cc: _.get(parsed, 'cc.text'),
-      bcc: _.get(parsed, 'bcc.text'),
-      subject: _.get(parsed, 'subject'),
-      text: _.get(parsed, 'text'),
-      html: _.get(parsed, 'html'),
-      attachments: _.get(parsed, 'attachments'),
-    };
-    mailer.sendMail(mail, domain);
+    const domainOverride = overrides.getDomainOverride(parsed);
+    const mail = mailer.buildMail(parsed);
+    mailer.sendMail(mail, domainOverride);
 
     callback();
   } catch (ex) {

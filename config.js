@@ -19,7 +19,7 @@ const config = {
   port: getIntEnvVar('PORT'),
   mailgunAPIKey: getEnvVar('MAILGUN_API_KEY'),
   mailgunDomain: getEnvVar('MAILGUN_DOMAIN'),
-  mailgunDomains: getJSONEnvVar('MAILGUN_DOMAINS'),
+  mailgunDomainOverrides: getJSONEnvVar('MAILGUN_DOMAIN_OVERRIDES'),
 };
 
 module.exports = config;

@@ -15,6 +15,7 @@ async function onData(stream, session, callback) {
 
     callback();
   } catch (ex) {
+    console.error(ex);
     callback(ex);
   }
 }
@@ -26,5 +27,5 @@ _server.listen(config.port, null, () => {
 });
 
 _server.on('error', (err) => {
-  console.log(`Error: ${err.message}`);
+  console.error(`Error: ${err.message}`);
 });

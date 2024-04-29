@@ -39,7 +39,7 @@ Example:
 ```
 [
   {"match": {"field": "from.text", "regex": ".*-Beta@.*"}, "domain":"beta-mg.yourdomain.com"},
-  {"match": {"header": "received", "regex": ".*SANDBOX-.*"}, "domain":"sandbox-mg.yourdomain.com"},
+  {"match": {"header": "message-id", "regex": ".*SANDBOX-.*"}, "domain":"sandbox-mg.yourdomain.com"},
 ]
 ```
 
@@ -64,6 +64,6 @@ Example:
 ```
 [
   {"match": {"field": "subject", "regex": ".*Hello.*"},"tags":["new_user","welcome_email"]},
-  {"match": {"header": "received", "regex": ".*BETA-.*"},"tags":["from_beta"]},
+  {"match": {"header": "message-id", "regex": ".*BETA-.*"},"tags":["from_beta"]},
 ]
 ```

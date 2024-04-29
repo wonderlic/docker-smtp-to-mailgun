@@ -2,6 +2,7 @@ const defaults = {
   PORT: '25',
   MAILGUN_DOMAIN_OVERRIDES: '[]',
   MAILGUN_TAGS: '[]',
+  DEBUG: 'false',
 };
 
 function getEnvVar(key) {
@@ -23,6 +24,8 @@ const config = {
   mailgunDomain: getEnvVar('MAILGUN_DOMAIN'),
   mailgunDomainOverrides: getJSONEnvVar('MAILGUN_DOMAIN_OVERRIDES'),
   mailgunTags: getJSONEnvVar('MAILGUN_TAGS'),
+  DEBUG: getBoolEnvVar('DEBUG'),
 };
 
+console.dir(config, {depth: null});
 module.exports = config;

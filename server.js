@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const process = require('process');
 const SMTPServer = require('smtp-server').SMTPServer;
 const simpleParser = require('mailparser').simpleParser;
 
@@ -9,7 +10,7 @@ const mailer = require('./lib/mailer');
 async function onData(stream, session, callback) {
   try {
     const parsed = await simpleParser(stream);
-    const domainOverride = overrides.getDomainOverride(parsed);
+    const domainOverride = overrides.getDomainOverride(parsed, session);
     const mail = mailer.buildMail(parsed);
     await mailer.sendMail(mail, domainOverride);
 
@@ -28,4 +29,13 @@ _server.listen(config.port, null, () => {
 
 _server.on('error', (err) => {
   console.error(`Error: ${err.message}`);
+});
+
+process.once('SIGINT', function (code) {
+  console.log('SIGINT received...');
+  _server.close();
+});
+process.once('SIGTERM', function (code) {
+  console.log('SIGTERM received...');
+  _server.close();
 });

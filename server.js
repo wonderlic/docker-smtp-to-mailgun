@@ -8,12 +8,12 @@ const overrides = require('./lib/overrides');
 const mailer = require('./lib/mailer');
 
 async function onConnect(session, callback) {
-  if (config.DEBUG && session.remoteAddress) console.log(`SMTP Connection received from: ${session.remoteAddress}`);
+  if (config.DEBUG && session.remoteAddress) console.log(`SMTP connection received from: ${session.remoteAddress}`);
   callback();
 }
 
 async function onClose(session) {
-  if (config.DEBUG && session.remoteAddress) console.log(`SMTP Connection closed from: ${session.remoteAddress}`);
+  if (config.DEBUG && session.remoteAddress) console.log(`SMTP connection closed from: ${session.remoteAddress}`);
 }
 
 async function onData(stream, session, callback) {
@@ -33,7 +33,7 @@ async function onData(stream, session, callback) {
 const _server = new SMTPServer({ authOptional: true, onConnect, onData, onClose });
 
 _server.listen(config.port, null, () => {
-  console.log(`Listening for SMTP messages on port ${config.port}`);
+  console.log(`Listening for SMTP connections on port: ${config.port}`);
 });
 
 _server.on('error', (err) => {

@@ -7,6 +7,15 @@ const config = require('./config');
 const overrides = require('./lib/overrides');
 const mailer = require('./lib/mailer');
 
+async function onConnect(session, callback) {
+  if (config.DEBUG) console.log(`SMTP Connection received from: ${session.remoteAddress}`);
+  callback();
+}
+
+async function onClose(session) {
+  if (config.DEBUG) console.log(`SMTP Connection closed from: ${session.remoteAddress}`);
+}
+
 async function onData(stream, session, callback) {
   try {
     const parsed = await simpleParser(stream);
@@ -21,7 +30,7 @@ async function onData(stream, session, callback) {
   }
 }
 
-const _server = new SMTPServer({ authOptional: true, onData });
+const _server = new SMTPServer({ authOptional: true, onConnect, onData, onClose });
 
 _server.listen(config.port, null, () => {
   console.log(`Listening for SMTP messages on port ${config.port}`);
